@@ -1,15 +1,8 @@
-package ru.sbt.mipt.oop.events.adpter;
+package ru.sbt.mipt.oop.events.adapter;
 
 import ru.sbt.mipt.oop.events.SensorEventType;
 
 public class DoorSensorEventFactory implements SensorEventFactory {
-    private static DoorSensorEventFactory singleton;
-
-    public static DoorSensorEventFactory getFactory() {
-        if (singleton == null) singleton = new DoorSensorEventFactory();
-        return singleton;
-    }
-
     @Override
     public SensorEventType getType(String typeName) {
         switch (typeName) {

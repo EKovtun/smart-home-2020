@@ -1,15 +1,8 @@
-package ru.sbt.mipt.oop.events.adpter;
+package ru.sbt.mipt.oop.events.adapter;
 
 import ru.sbt.mipt.oop.events.SensorEventType;
 
 public class LightSensorEventFactory implements SensorEventFactory {
-    private static LightSensorEventFactory singleton;
-
-    public static LightSensorEventFactory getFactory() {
-        if (singleton == null) singleton = new LightSensorEventFactory();
-        return singleton;
-    }
-
     @Override
     public SensorEventType getType(String typeName) {
         switch (typeName) {
