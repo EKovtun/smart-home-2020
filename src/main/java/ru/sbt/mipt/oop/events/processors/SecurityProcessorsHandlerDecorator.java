@@ -5,12 +5,14 @@ import ru.sbt.mipt.oop.events.SensorEventType;
 import ru.sbt.mipt.oop.smart.devices.Alarm;
 import ru.sbt.mipt.oop.smart.home.SmartHome;
 
-public class SecurityProcessorDecorator implements EventProcessor {
-    private final EventProcessor source;
+import java.util.ArrayList;
+import java.util.Collection;
 
-    public SecurityProcessorDecorator(EventProcessor source) throws IllegalArgumentException {
-        if (source == null) throw new IllegalArgumentException();
-        this.source = source;
+public class SecurityProcessorsHandlerDecorator implements EventProcessor {
+    private final ArrayList<EventProcessor> processors = new ArrayList<>();
+
+    public SecurityProcessorsHandlerDecorator(Collection<EventProcessor> processors) {
+        this.processors.addAll(processors);
     }
 
     @Override
@@ -18,18 +20,21 @@ public class SecurityProcessorDecorator implements EventProcessor {
         Alarm alarm = smartHome.getAlarm();
 
         if (alarm == null || isAlarm(event)) {
-            source.processing(event, smartHome);
+            declare(event, smartHome);
             return;
         }
 
-        if (alarm.isActivated()) {
-            alarm.activateAlert();
+        if (alarm.isActivated()) alarm.activateAlert();
+        if (alarm.isAlert()) {
             System.out.println("Sending sms");
+            return;
         }
 
-        if (alarm.isAlert()) return;
+        declare(event, smartHome);
+    }
 
-        source.processing(event, smartHome);
+    private void declare(SensorEvent event, SmartHome smartHome) {
+        processors.forEach(processor -> processor.processing(event, smartHome));
     }
 
     private boolean isAlarm(SensorEvent event) {

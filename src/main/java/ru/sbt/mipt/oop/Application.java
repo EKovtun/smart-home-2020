@@ -8,7 +8,7 @@ import ru.sbt.mipt.oop.smart.home.utils.SmartHomeReader;
 import ru.sbt.mipt.oop.smart.home.utils.SmartHomeReaderJsonFile;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collections;
 
 public class Application {
     private final SmartHomeReader smartHomeReader;
@@ -31,14 +31,14 @@ public class Application {
             return;
         }
 
-        List<EventProcessor> processors = Arrays.asList(
-                new SecurityProcessorDecorator(new AlarmEventProcessor()),
-                new SecurityProcessorDecorator(new LightEventProcessor()),
-                new SecurityProcessorDecorator(new DoorEventProcessor()),
-                new SecurityProcessorDecorator(new HallDoorEventProcessor())
-        );
+        SecurityProcessorsHandlerDecorator securityProcessorsHandlerDecorator = new SecurityProcessorsHandlerDecorator(Arrays.asList(
+                new AlarmEventProcessor(),
+                new LightEventProcessor(),
+                new DoorEventProcessor(),
+                new HallDoorEventProcessor()
+        ));
 
-        MainLoop mainLoop = new MainLoop(new EventHandler(processors), new RandomEventGenerator());
+        MainLoop mainLoop = new MainLoop(new EventHandler(Collections.singletonList(securityProcessorsHandlerDecorator)), new RandomEventGenerator());
         mainLoop.run(smartHome);
     }
 }

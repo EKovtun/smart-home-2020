@@ -7,7 +7,7 @@ import ru.sbt.mipt.oop.events.SensorEvent;
 import ru.sbt.mipt.oop.events.SensorEventType;
 import ru.sbt.mipt.oop.events.processors.AlarmEventProcessor;
 import ru.sbt.mipt.oop.events.processors.LightEventProcessor;
-import ru.sbt.mipt.oop.events.processors.SecurityProcessorDecorator;
+import ru.sbt.mipt.oop.events.processors.SecurityProcessorsHandlerDecorator;
 import ru.sbt.mipt.oop.smart.devices.Alarm;
 import ru.sbt.mipt.oop.smart.devices.Light;
 import ru.sbt.mipt.oop.smart.home.Room;
@@ -22,8 +22,8 @@ class AlarmTests {
     Alarm alarm;
     Light light = new Light("1", false);
 
-    SecurityProcessorDecorator securityAlarmEvent = new SecurityProcessorDecorator(new AlarmEventProcessor());
-    SecurityProcessorDecorator securityLightEvent = new SecurityProcessorDecorator(new LightEventProcessor());
+    SecurityProcessorsHandlerDecorator securityAlarmEvent = new SecurityProcessorsHandlerDecorator(Collections.singletonList(new AlarmEventProcessor()));
+    SecurityProcessorsHandlerDecorator securityLightEvent = new SecurityProcessorsHandlerDecorator(Collections.singletonList(new LightEventProcessor()));
 
     @BeforeEach
     void initialization() {
