@@ -11,7 +11,7 @@ public class SmartHome implements Actionable {
     private final Alarm alarm;
 
     public SmartHome(Alarm alarm, Collection<Room> rooms) throws IllegalArgumentException {
-        if (alarm == null || rooms == null) throw new IllegalArgumentException();
+        if (rooms == null) throw new IllegalArgumentException();
         this.rooms.addAll(rooms);
         this.alarm = alarm;
     }
@@ -23,7 +23,7 @@ public class SmartHome implements Actionable {
     @Override
     public void execute(Action action) {
         action.act(this);
-        alarm.execute(action);
+        if (alarm != null) alarm.execute(action);
         rooms.forEach(room -> room.execute(action));
     }
 }

@@ -24,6 +24,10 @@ public class AlarmEventProcessor implements EventProcessor {
                             if (alarm.deactivate(event.getType().getCode()))
                                 System.out.println("Alarm " + alarm.getId() + " was deactivated.");
                             break;
+                        case ALARM_ALERT:
+                            if (alarm.activateAlert())
+                                System.out.println("Alarm " + alarm.getId() + " alert activated.");
+                            break;
                         default:
                             break;
                     }
@@ -32,6 +36,8 @@ public class AlarmEventProcessor implements EventProcessor {
     }
 
     private boolean isAlarm(SensorEvent event) {
-        return event.getType() == SensorEventType.ALARM_ACTIVATE || event.getType() == SensorEventType.ALARM_DEACTIVATE;
+        return event.getType() == SensorEventType.ALARM_ACTIVATE
+                || event.getType() == SensorEventType.ALARM_DEACTIVATE
+                || event.getType() == SensorEventType.ALARM_ALERT;
     }
 }
