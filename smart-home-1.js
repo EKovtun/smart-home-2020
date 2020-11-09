@@ -1,84 +1,99 @@
 {
   "rooms": [
     {
-      "lights": [
-        {
-          "isOn": false,
-          "id": "1"
-        },
-        {
-          "isOn": true,
-          "id": "2"
-        }
-      ],
+      "name": "kitchen",
       "doors": [
         {
-          "id": "1",
+          "id": "16",
+          "isOpen": false
+        },
+        {
+          "id": "15",
           "isOpen": false
         }
       ],
-      "name": "kitchen"
-    },
-    {
       "lights": [
         {
-          "isOn": true,
-          "id": "3"
+          "id": "6",
+          "isOn": false
+        },
+        {
+          "id": "5",
+          "isOn": false
         }
-      ],
+      ]
+    },
+    {
+      "name": "hall",
       "doors": [
         {
-          "id": "2",
+          "id": "13",
+          "isOpen": false
+        },
+        {
+          "id": "14",
           "isOpen": false
         }
       ],
-      "name": "bathroom"
-    },
-    {
       "lights": [
-        {
-          "isOn": false,
-          "id": "4"
-        },
-        {
-          "isOn": false,
-          "id": "5"
-        },
-        {
-          "isOn": false,
-          "id": "6"
-        }
-      ],
-      "doors": [
         {
           "id": "3",
-          "isOpen": true
-        }
-      ],
-      "name": "bedroom"
-    },
-    {
-      "lights": [
-        {
-          "isOn": false,
-          "id": "7"
+          "isOn": false
         },
-        {
-          "isOn": false,
-          "id": "8"
-        },
-        {
-          "isOn": false,
-          "id": "9"
-        }
-      ],
-      "doors": [
         {
           "id": "4",
+          "isOn": false
+        }
+      ]
+    },
+    {
+      "name": "bathroom",
+      "doors": [
+        {
+          "id": "11",
+          "isOpen": false
+        },
+        {
+          "id": "12",
           "isOpen": false
         }
       ],
-      "name": "hall"
+      "lights": [
+        {
+          "id": "1",
+          "isOn": false
+        },
+        {
+          "id": "2",
+          "isOn": false
+        }
+      ]
+    },
+    {
+      "name": "bedroom",
+      "doors": [
+        {
+          "id": "17",
+          "isOpen": false
+        },
+        {
+          "id": "18",
+          "isOpen": false
+        }
+      ],
+      "lights": [
+        {
+          "id": "7",
+          "isOn": false
+        },
+        {
+          "id": "8",
+          "isOn": false
+        }
+      ]
     }
-  ]
+  ],
+  "alarm": {
+    "id": "99"
+  }
 }

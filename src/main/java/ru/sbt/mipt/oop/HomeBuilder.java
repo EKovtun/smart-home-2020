@@ -1,38 +1,71 @@
 package ru.sbt.mipt.oop;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import ru.sbt.mipt.oop.smart.devices.Alarm;
+import ru.sbt.mipt.oop.smart.devices.Door;
+import ru.sbt.mipt.oop.smart.devices.Light;
+import ru.sbt.mipt.oop.smart.home.Room;
+import ru.sbt.mipt.oop.smart.home.SmartHome;
+import ru.sbt.mipt.oop.smart.home.utils.SmartHomeWriter;
+import ru.sbt.mipt.oop.smart.home.utils.SmartHomeWriterJsonFile;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class HomeBuilder {
+    public static void main(String[] args) {
+        Room bathroom = new Room("bathroom",
+                Arrays.asList(
+                        new Door("11", false),
+                        new Door("12", false)
+                ),
+                Arrays.asList(
+                        new Light("1", false),
+                        new Light("2", false)
+                ));
 
-    public static void main(String[] args) throws IOException {
-        Room kitchen = new Room(Arrays.asList(new Light("1", false), new Light("2", true)),
-                Arrays.asList(new Door(false, "1")),
-                "kitchen");
-        Room bathroom = new Room(Arrays.asList(new Light("3", true)),
-                Arrays.asList(new Door(false, "2")),
-                "bathroom");
-        Room bedroom = new Room(Arrays.asList(new Light("4", false), new Light("5", false), new Light("6", false)),
-                Arrays.asList(new Door(true, "3")),
-                "bedroom");
-        Room hall = new Room(Arrays.asList(new Light("7", false), new Light("8", false), new Light("9", false)),
-                Arrays.asList(new Door(false, "4")),
-                "hall");
-        SmartHome smartHome = new SmartHome(Arrays.asList(kitchen, bathroom, bedroom, hall));
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String jsonString = gson.toJson(smartHome);
-        System.out.println(jsonString);
-        Path path = Paths.get("output.js");
-        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
-            writer.write(jsonString);
-        }
+        Room hall = new Room("hall",
+                Arrays.asList(
+                        new Door("13", false),
+                        new Door("14", false)
+                ),
+                Arrays.asList(
+                        new Light("3", false),
+                        new Light("4", false)
+                ));
+
+        Room kitchen = new Room("kitchen",
+                Arrays.asList(
+                        new Door("15", false),
+                        new Door("16", false)
+                ),
+                Arrays.asList(
+                        new Light("5", false),
+                        new Light("6", false)
+                ));
+
+        Room bedroom = new Room("bedroom",
+                Arrays.asList(
+                        new Door("17", false),
+                        new Door("18", false)
+                ),
+                Arrays.asList(
+                        new Light("7", false),
+                        new Light("8", false)
+                ));
+
+        ArrayList<Room> roomsList = new ArrayList<>();
+        roomsList.add(bathroom);
+        roomsList.add(hall);
+        roomsList.add(kitchen);
+        roomsList.add(bedroom);
+
+        SmartHome smartHome = new SmartHome(new Alarm(Constants.ALARM_DEVICE_ID), roomsList);
+
+        SmartHomeWriter smartHomeReaderWriter = new SmartHomeWriterJsonFile(
+                Constants.OUTPUT_SMART_HOME_JSON_FILE_NAME);
+        boolean saveSuccessful = smartHomeReaderWriter.save(smartHome);
+        if (!saveSuccessful)
+            System.out.println("Error save smart home");
     }
-
 }
