@@ -11,7 +11,6 @@ import ru.sbt.mipt.oop.smart.devices.Light;
 import ru.sbt.mipt.oop.smart.home.Room;
 import ru.sbt.mipt.oop.smart.home.SmartHome;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 class RemoteControlTests {
@@ -30,7 +29,7 @@ class RemoteControlTests {
         Alarm alarm = new Alarm("1");
         SmartHome smartHome = new SmartHome(alarm, new ArrayList<>());
         EventHandler eventHandler = new EventHandler(generateEventProcessors(), smartHome);
-        MyRemoteControl myRemoteControl = new MyRemoteControl("1");
+        MyRemoteControl myRemoteControl = new MyRemoteControl("1", null);
         myRemoteControl.registerCommand("A", new ControlCommandActivateAlarm(eventHandler,"1"));
         // when
         boolean alarmIsDeactivate = !alarm.isActivated();
@@ -47,7 +46,7 @@ class RemoteControlTests {
         Alarm alarm = new Alarm("1");
         SmartHome smartHome = new SmartHome(alarm, new ArrayList<>());
         EventHandler eventHandler = new EventHandler(generateEventProcessors(), smartHome);
-        MyRemoteControl myRemoteControl = new MyRemoteControl("1");
+        MyRemoteControl myRemoteControl = new MyRemoteControl("1", null);
         myRemoteControl.registerCommand("A", new ControlCommandActivateAlarm(eventHandler,"1"));
         myRemoteControl.registerCommand("B", new ControlCommandActivateAlarmAlert(eventHandler,"1"));
         // when
@@ -70,7 +69,7 @@ class RemoteControlTests {
         SmartHome smartHome = new SmartHome(null, rooms);
 
         EventHandler eventHandler = new EventHandler(generateEventProcessors(), smartHome);
-        MyRemoteControl myRemoteControl = new MyRemoteControl("1");
+        MyRemoteControl myRemoteControl = new MyRemoteControl("1", null);
         myRemoteControl.registerCommand("A", new ControlCommandCloseDoors(eventHandler,Arrays.asList("1", "2")));
         // when
         boolean door1Open = door1.isOpen();
@@ -96,7 +95,7 @@ class RemoteControlTests {
         SmartHome smartHome = new SmartHome(null, rooms);
 
         EventHandler eventHandler = new EventHandler(generateEventProcessors(), smartHome);
-        MyRemoteControl myRemoteControl = new MyRemoteControl("1");
+        MyRemoteControl myRemoteControl = new MyRemoteControl("1", null);
         myRemoteControl.registerCommand("A", new ControlCommandOffLights(eventHandler,Arrays.asList("1", "2")));
         // when
         boolean light1On = light1.isOn();
@@ -122,7 +121,7 @@ class RemoteControlTests {
         SmartHome smartHome = new SmartHome(null, rooms);
 
         EventHandler eventHandler = new EventHandler(generateEventProcessors(), smartHome);
-        MyRemoteControl myRemoteControl = new MyRemoteControl("1");
+        MyRemoteControl myRemoteControl = new MyRemoteControl("1", null);
         myRemoteControl.registerCommand("A", new ControlCommandOnLights(eventHandler,Arrays.asList("1", "2")));
         // when
         boolean light1Off = !light1.isOn();
