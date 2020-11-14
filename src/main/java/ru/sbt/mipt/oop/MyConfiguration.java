@@ -12,10 +12,7 @@ import ru.sbt.mipt.oop.events.adapter.EventHandlerAdapter;
 import ru.sbt.mipt.oop.events.adapter.SensorEventFactory;
 import ru.sbt.mipt.oop.events.processors.*;
 import ru.sbt.mipt.oop.rc.MyRemoteControl;
-import ru.sbt.mipt.oop.rc.commands.ControlCommand;
-import ru.sbt.mipt.oop.rc.commands.ControlCommandCloseDoors;
-import ru.sbt.mipt.oop.rc.commands.ControlCommandOffLights;
-import ru.sbt.mipt.oop.rc.commands.ControlCommandOnLights;
+import ru.sbt.mipt.oop.rc.commands.*;
 import ru.sbt.mipt.oop.smart.home.SmartHome;
 import ru.sbt.mipt.oop.smart.home.utils.SmartHomeReaderJsonFile;
 
@@ -86,11 +83,11 @@ public class MyConfiguration {
     }
 
     @Bean(name = "commandsMapForRemoteControl")
-    Map<String, ControlCommand> commandsMapForRemoteControl(EventHandler eventHandler) {
+    Map<String, ControlCommand> commandsMapForRemoteControl(SmartHome smartHome) {
         Map<String, ControlCommand> commandsMap = new HashMap<>();
-        commandsMap.put("A", new ControlCommandCloseDoors(eventHandler, Arrays.asList("1", "2")));
-        commandsMap.put("B", new ControlCommandOnLights(eventHandler,Arrays.asList("1", "2")));
-        commandsMap.put("C", new ControlCommandOffLights(eventHandler,Arrays.asList("1", "2")));
+        commandsMap.put("A", new ControlCommandCloseDoors(smartHome, Arrays.asList("1", "2")));
+        commandsMap.put("B", new ControlCommandOnLights(smartHome,Arrays.asList("1", "2")));
+        commandsMap.put("C", new ControlCommandOffLights(smartHome,Arrays.asList("1", "2")));
         return commandsMap;
     }
 

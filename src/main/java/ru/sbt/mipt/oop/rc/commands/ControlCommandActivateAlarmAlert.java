@@ -1,20 +1,17 @@
 package ru.sbt.mipt.oop.rc.commands;
 
-import ru.sbt.mipt.oop.events.EventHandler;
-import ru.sbt.mipt.oop.events.SensorEvent;
-import ru.sbt.mipt.oop.events.SensorEventType;
+import ru.sbt.mipt.oop.smart.devices.Alarm;
 
 public class ControlCommandActivateAlarmAlert implements ControlCommand {
-    private final EventHandler eventHandler;
-    private final String alarmId;
+    private final Alarm alarm;
 
-    public ControlCommandActivateAlarmAlert(EventHandler eventHandler, String alarmId) {
-        this.eventHandler = eventHandler;
-        this.alarmId = alarmId;
+    public ControlCommandActivateAlarmAlert(Alarm alarm) {
+        this.alarm = alarm;
     }
 
     @Override
     public void execute() {
-        eventHandler.executeEvent(new SensorEvent(SensorEventType.ALARM_ALERT, alarmId));
+        if (alarm.activateAlert())
+            System.out.println("Alarm " + alarm.getId() + " alert was activated via remote control.");
     }
 }

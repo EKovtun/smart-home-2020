@@ -1,24 +1,30 @@
 package ru.sbt.mipt.oop.rc.commands;
 
-import ru.sbt.mipt.oop.events.EventHandler;
-import ru.sbt.mipt.oop.events.SensorEvent;
-import ru.sbt.mipt.oop.events.SensorEventType;
+import ru.sbt.mipt.oop.smart.devices.Light;
+import ru.sbt.mipt.oop.smart.home.SmartHome;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class ControlCommandOnLights implements ControlCommand {
-    private final EventHandler eventHandler;
+    private final SmartHome smartHome;
     private final ArrayList<String> lightsIds = new ArrayList<>();
 
-    public ControlCommandOnLights(EventHandler eventHandler, Collection<String> lightsIds) {
-        this.eventHandler = eventHandler;
+    public ControlCommandOnLights(SmartHome smartHome, Collection<String> lightsIds) {
+        this.smartHome = smartHome;
         this.lightsIds.addAll(lightsIds);
     }
 
     @Override
     public void execute() {
-        for (String lightId : lightsIds)
-            eventHandler.executeEvent(new SensorEvent(SensorEventType.LIGHT_ON, lightId));
+        smartHome.execute( device ->
+                {
+                    if (!(device instanceof Light)) return;
+                    Light light = (Light) device;
+                    if (!lightsIds.contains(light.getId())) return;
+                    light.setOn(true);
+                    System.out.println("Ligth " + light.getId() + " was on via remote control.");
+                }
+        );
     }
 }

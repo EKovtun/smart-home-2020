@@ -1,24 +1,30 @@
 package ru.sbt.mipt.oop.rc.commands;
 
-import ru.sbt.mipt.oop.events.EventHandler;
-import ru.sbt.mipt.oop.events.SensorEvent;
-import ru.sbt.mipt.oop.events.SensorEventType;
+import ru.sbt.mipt.oop.smart.devices.Door;
+import ru.sbt.mipt.oop.smart.home.SmartHome;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class ControlCommandCloseDoors implements ControlCommand {
-    private final EventHandler eventHandler;
+    private final SmartHome smartHome;
     private final ArrayList<String> doorsIds = new ArrayList<>();
 
-    public ControlCommandCloseDoors(EventHandler eventHandler, Collection<String> doorsIds) {
-        this.eventHandler = eventHandler;
+    public ControlCommandCloseDoors(SmartHome smartHome, Collection<String> doorsIds) {
+        this.smartHome = smartHome;
         this.doorsIds.addAll(doorsIds);
     }
 
     @Override
     public void execute() {
-        for (String doorId : doorsIds)
-            eventHandler.executeEvent(new SensorEvent(SensorEventType.DOOR_CLOSED, doorId));
+        smartHome.execute( device ->
+                {
+                    if (!(device instanceof Door)) return;
+                    Door door = (Door) device;
+                    if (!doorsIds.contains(door.getId())) return;
+                    if (door.setOpen(false))
+                        System.out.println("Door " + door.getId() + " was closed via remote control.");
+                }
+        );
     }
 }
