@@ -1,6 +1,7 @@
 package ru.sbt.mipt.oop;
 
 import com.coolcompany.smarthome.events.SensorEventsManager;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.sbt.mipt.oop.events.EventHandler;
@@ -51,8 +52,8 @@ public class MyConfiguration {
     }
 
     @Bean
-    SensorEventFactory sensorEventFactory () {
-        return new MapBasedSensorEventFactory();
+    SensorEventFactory mapBasedSensorEventFactory (@Qualifier("mapForMapBasedSensorEventFactory") Map<String, SensorEventType> map) {
+        return new MapBasedSensorEventFactory(map);
     }
 
     @Bean

@@ -10,7 +10,7 @@ import java.util.Map;
 public class MapBasedSensorEventFactory implements SensorEventFactory {
     private Map<String, SensorEventType> mapTypes;
 
-    public MapBasedSensorEventFactory(@Qualifier("mapForMapBasedSensorEventFactory") Map<String, SensorEventType> mapTypes) {
+    public MapBasedSensorEventFactory(Map<String, SensorEventType> mapTypes) {
         this.mapTypes = mapTypes;
     }
 
