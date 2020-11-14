@@ -29,8 +29,10 @@ class RemoteControlTests {
         Alarm alarm = new Alarm("1");
         SmartHome smartHome = new SmartHome(alarm, new ArrayList<>());
         EventHandler eventHandler = new EventHandler(generateEventProcessors(), smartHome);
-        MyRemoteControl myRemoteControl = new MyRemoteControl("1", null);
-        myRemoteControl.registerCommand("A", new ControlCommandActivateAlarm(eventHandler,"1"));
+
+
+        MyRemoteControl myRemoteControl = new MyRemoteControl("1",
+                Collections.singletonMap("A", new ControlCommandActivateAlarm(eventHandler,"1")));
         // when
         boolean alarmIsDeactivate = !alarm.isActivated();
         myRemoteControl.onButtonPressed("A", "1");
@@ -46,9 +48,11 @@ class RemoteControlTests {
         Alarm alarm = new Alarm("1");
         SmartHome smartHome = new SmartHome(alarm, new ArrayList<>());
         EventHandler eventHandler = new EventHandler(generateEventProcessors(), smartHome);
-        MyRemoteControl myRemoteControl = new MyRemoteControl("1", null);
-        myRemoteControl.registerCommand("A", new ControlCommandActivateAlarm(eventHandler,"1"));
-        myRemoteControl.registerCommand("B", new ControlCommandActivateAlarmAlert(eventHandler,"1"));
+
+        Map<String, ControlCommand> commandsMap = new HashMap<>();
+        commandsMap.put("A", new ControlCommandActivateAlarm(eventHandler,"1"));
+        commandsMap.put("B", new ControlCommandActivateAlarmAlert(eventHandler,"1"));
+        MyRemoteControl myRemoteControl = new MyRemoteControl("1", commandsMap);
         // when
         boolean alarmIsNotAlert = !alarm.isAlert();
         myRemoteControl.onButtonPressed("A", "1");
@@ -69,8 +73,8 @@ class RemoteControlTests {
         SmartHome smartHome = new SmartHome(null, rooms);
 
         EventHandler eventHandler = new EventHandler(generateEventProcessors(), smartHome);
-        MyRemoteControl myRemoteControl = new MyRemoteControl("1", null);
-        myRemoteControl.registerCommand("A", new ControlCommandCloseDoors(eventHandler,Arrays.asList("1", "2")));
+        MyRemoteControl myRemoteControl = new MyRemoteControl("1",
+                Collections.singletonMap("A", new ControlCommandCloseDoors(eventHandler,Arrays.asList("1", "2"))));
         // when
         boolean door1Open = door1.isOpen();
         boolean door2Open = door2.isOpen();
@@ -95,8 +99,8 @@ class RemoteControlTests {
         SmartHome smartHome = new SmartHome(null, rooms);
 
         EventHandler eventHandler = new EventHandler(generateEventProcessors(), smartHome);
-        MyRemoteControl myRemoteControl = new MyRemoteControl("1", null);
-        myRemoteControl.registerCommand("A", new ControlCommandOffLights(eventHandler,Arrays.asList("1", "2")));
+        MyRemoteControl myRemoteControl = new MyRemoteControl("1",
+                Collections.singletonMap("A", new ControlCommandOffLights(eventHandler,Arrays.asList("1", "2"))));
         // when
         boolean light1On = light1.isOn();
         boolean light2On = light2.isOn();
@@ -121,8 +125,8 @@ class RemoteControlTests {
         SmartHome smartHome = new SmartHome(null, rooms);
 
         EventHandler eventHandler = new EventHandler(generateEventProcessors(), smartHome);
-        MyRemoteControl myRemoteControl = new MyRemoteControl("1", null);
-        myRemoteControl.registerCommand("A", new ControlCommandOnLights(eventHandler,Arrays.asList("1", "2")));
+        MyRemoteControl myRemoteControl = new MyRemoteControl("1",
+                Collections.singletonMap("A", new ControlCommandOnLights(eventHandler,Arrays.asList("1", "2"))));
         // when
         boolean light1Off = !light1.isOn();
         boolean light2Off = !light2.isOn();

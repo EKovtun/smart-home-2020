@@ -16,10 +16,6 @@ public class MyRemoteControl implements RemoteControl {
         commands = Objects.requireNonNullElseGet(commandsMap, HashMap::new);
     }
 
-    public void registerCommand(String buttonCode, ControlCommand command) {
-        commands.put(buttonCode, command);
-    }
-
     @Override
     public void onButtonPressed(String buttonCode, String rcId) {
         if (!rcId.equals(id) || !commands.containsKey(buttonCode)) return;
