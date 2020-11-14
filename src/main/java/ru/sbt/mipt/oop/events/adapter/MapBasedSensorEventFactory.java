@@ -5,14 +5,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import ru.sbt.mipt.oop.events.SensorEventType;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class MapBasedSensorEventFactory implements SensorEventFactory {
+    private Map<String, SensorEventType> mapTypes;
 
-    @Autowired
-    @Qualifier("mapForMapBasedSensorEventFactory")
-    // Если изменить HashMap на Map здесь и в бине (в MyConfiguration.class), то не может найти бин с таким именем
-    // Почему?
-    private HashMap<String, SensorEventType> mapTypes;
+    public MapBasedSensorEventFactory(@Qualifier("mapForMapBasedSensorEventFactory") Map<String, SensorEventType> mapTypes) {
+        this.mapTypes = mapTypes;
+    }
+
+    public MapBasedSensorEventFactory() {}
 
     @Override
     public SensorEventType getType(String typeName) {

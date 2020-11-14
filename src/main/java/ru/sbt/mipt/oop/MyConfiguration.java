@@ -39,9 +39,7 @@ public class MyConfiguration {
     }
 
     @Bean(name = "mapForMapBasedSensorEventFactory")
-    // Если изменить HashMap на Map, то падает в MapBasedSensorEventFactory при попытке найти этот бин по имени
-    // Почему?
-    HashMap<String, SensorEventType> mapSensorEventTypeForFactory() {
+    Map<String, SensorEventType> mapSensorEventTypeForFactory() {
         HashMap<String, SensorEventType> map = new HashMap<>();
         map.put("DoorIsOpen", SensorEventType.DOOR_OPEN);
         map.put("DoorIsClosed", SensorEventType.DOOR_CLOSED);
