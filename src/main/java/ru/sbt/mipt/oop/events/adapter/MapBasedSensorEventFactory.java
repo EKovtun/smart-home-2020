@@ -1,10 +1,7 @@
 package ru.sbt.mipt.oop.events.adapter;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import ru.sbt.mipt.oop.events.SensorEventType;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class MapBasedSensorEventFactory implements SensorEventFactory {
