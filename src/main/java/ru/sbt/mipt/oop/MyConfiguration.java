@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import rc.RemoteControl;
+import rc.RemoteControlRegistry;
 import ru.sbt.mipt.oop.events.EventHandler;
 import ru.sbt.mipt.oop.events.SensorEventType;
 import ru.sbt.mipt.oop.events.adapter.MapBasedSensorEventFactory;
@@ -16,10 +17,7 @@ import ru.sbt.mipt.oop.rc.commands.*;
 import ru.sbt.mipt.oop.smart.home.SmartHome;
 import ru.sbt.mipt.oop.smart.home.utils.SmartHomeReaderJsonFile;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Configuration
 public class MyConfiguration {
@@ -92,7 +90,15 @@ public class MyConfiguration {
     }
 
     @Bean
-    RemoteControl remoteControl(@Qualifier("commandsMapForRemoteControl") Map<String, ControlCommand> commandsMap) {
+    MyRemoteControl remoteControl(@Qualifier("commandsMapForRemoteControl") Map<String, ControlCommand> commandsMap) {
         return new MyRemoteControl("1", commandsMap);
+    }
+
+    @Bean
+    RemoteControlRegistry remoteControlRegistry(List<MyRemoteControl> remoteControls) {
+        RemoteControlRegistry remoteControlRegistry = new RemoteControlRegistry();
+        remoteControls.forEach(remoteControl -> remoteControlRegistry.registerRemoteControl(remoteControl,
+                remoteControl.getId()));
+        return remoteControlRegistry;
     }
 }

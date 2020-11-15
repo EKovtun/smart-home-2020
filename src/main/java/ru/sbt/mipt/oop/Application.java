@@ -9,7 +9,6 @@ public class Application {
     public static void main(String... args) {
         ApplicationContext context = new AnnotationConfigApplicationContext(MyConfiguration.class);
         SensorEventsManager sensorEventsManager = context.getBean(SensorEventsManager.class);
-        RemoteControl myRemoteControl = context.getBean(RemoteControl.class);
         sensorEventsManager.start();
     }
 }

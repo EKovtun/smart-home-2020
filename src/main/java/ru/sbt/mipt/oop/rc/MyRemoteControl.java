@@ -21,4 +21,8 @@ public class MyRemoteControl implements RemoteControl {
         if (!rcId.equals(id) || !commands.containsKey(buttonCode)) return;
         commands.get(buttonCode).execute();
     }
+
+    public String getId() {
+        return id;
+    }
 }
