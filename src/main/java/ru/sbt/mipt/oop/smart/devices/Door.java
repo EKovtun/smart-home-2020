@@ -12,6 +12,10 @@ public class Door implements Actionable {
         this.state = isOpen? new DoorOpenedState(this) : new DoorClosedState(this);
     }
 
+    public boolean isOpen() {
+        return state instanceof DoorOpenedState;
+    }
+
     public boolean setOpen(boolean open) {
         return open ? state.open() : state.close();
     }

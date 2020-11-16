@@ -10,7 +10,8 @@ public enum SensorEventType {
     DOOR_LOCKED,
     DOOR_UNLOCKED,
     ALARM_ACTIVATE(Constants.ALARM_PASSWORD),
-    ALARM_DEACTIVATE(Constants.ALARM_PASSWORD);
+    ALARM_DEACTIVATE(Constants.ALARM_PASSWORD),
+    ALARM_ALERT;
 
     private final String code;
 

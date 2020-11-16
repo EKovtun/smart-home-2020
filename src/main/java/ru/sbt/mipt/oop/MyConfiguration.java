@@ -4,18 +4,20 @@ import com.coolcompany.smarthome.events.SensorEventsManager;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import rc.RemoteControl;
+import rc.RemoteControlRegistry;
 import ru.sbt.mipt.oop.events.EventHandler;
 import ru.sbt.mipt.oop.events.SensorEventType;
 import ru.sbt.mipt.oop.events.adapter.MapBasedSensorEventFactory;
 import ru.sbt.mipt.oop.events.adapter.EventHandlerAdapter;
 import ru.sbt.mipt.oop.events.adapter.SensorEventFactory;
 import ru.sbt.mipt.oop.events.processors.*;
+import ru.sbt.mipt.oop.rc.MyRemoteControl;
+import ru.sbt.mipt.oop.rc.commands.*;
 import ru.sbt.mipt.oop.smart.home.SmartHome;
 import ru.sbt.mipt.oop.smart.home.utils.SmartHomeReaderJsonFile;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Configuration
 public class MyConfiguration {
@@ -76,5 +78,27 @@ public class MyConfiguration {
     @Bean
     SmartHome smartHome() {
         return new SmartHomeReaderJsonFile(Constants.INPUT_SMART_HOME_JSON_FILE_NAME).load();
+    }
+
+    @Bean(name = "commandsMapForRemoteControl")
+    Map<String, ControlCommand> commandsMapForRemoteControl(SmartHome smartHome) {
+        Map<String, ControlCommand> commandsMap = new HashMap<>();
+        commandsMap.put("A", new ControlCommandCloseDoors(smartHome, Arrays.asList("1", "2")));
+        commandsMap.put("B", new ControlCommandOnLights(smartHome,Arrays.asList("1", "2")));
+        commandsMap.put("C", new ControlCommandOffLights(smartHome,Arrays.asList("1", "2")));
+        return commandsMap;
+    }
+
+    @Bean
+    MyRemoteControl remoteControl(@Qualifier("commandsMapForRemoteControl") Map<String, ControlCommand> commandsMap) {
+        return new MyRemoteControl("1", commandsMap);
+    }
+
+    @Bean
+    RemoteControlRegistry remoteControlRegistry(List<MyRemoteControl> remoteControls) {
+        RemoteControlRegistry remoteControlRegistry = new RemoteControlRegistry();
+        remoteControls.forEach(remoteControl -> remoteControlRegistry.registerRemoteControl(remoteControl,
+                remoteControl.getId()));
+        return remoteControlRegistry;
     }
 }
