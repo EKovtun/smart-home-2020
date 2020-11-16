@@ -17,12 +17,20 @@ public class DoorEventProcessor implements EventProcessor {
 
                     switch (event.getType()) {
                         case DOOR_OPEN:
-                            door.setOpen(true);
-                            System.out.println("Door " + door.getId() + " was opened.");
+                            if (door.setOpen(true))
+                                System.out.println("Door " + door.getId() + " was opened.");
                             break;
                         case DOOR_CLOSED:
-                            door.setOpen(false);
-                            System.out.println("Door " + door.getId() + " was closed.");
+                            if (door.setOpen(false))
+                                System.out.println("Door " + door.getId() + " was closed.");
+                            break;
+                        case DOOR_LOCKED:
+                            if (door.setLock(true))
+                                System.out.println("Door " + door.getId() + " was locked.");
+                            break;
+                        case DOOR_UNLOCKED:
+                            if (door.setLock(false))
+                                System.out.println("Door " + door.getId() + " was unlocked.");
                             break;
                         default:
                             break;
